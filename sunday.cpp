@@ -3,7 +3,7 @@
 void sunday(vector<char> &source,vector<char> &pattern){
 	int slen=source.size();
 	int plen=pattern.size();
-	vector<int> next(plen,256);
+	vector<int> next(256,plen);
 	int i,j;
 	//建立next数组，相当于一个简单的map结构，保存的是距离结尾最近的一个char距离pattern头字符的位置
 	for(i=0;i<plen;i++)
