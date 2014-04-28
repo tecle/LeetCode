@@ -1,4 +1,6 @@
 #include<iostream>
+#include<vector>
+#include<cmath>
 using namespace std;
 
 int left(int i){
@@ -9,6 +11,39 @@ int right(int i){
 }
 int parent(int i){
 	return i/2;
+}
+
+//打印出最大堆
+void output(vector<int> &heap){
+	int size=heap.size()-1;
+	int level=0;
+	if(size == 0)
+		return;
+	while(size){
+		level++;
+		size=(size>>1);
+	}
+	int k=1;
+	size=heap.size();
+	for(int i=0;i<level;i++){
+		for(int j=0;(j<(1 << i))&&(k<size);j++)
+			cout<<heap[k++]<<" ";
+		cout<<endl;
+	}
+}
+//在堆数组的最后一格里面加入一个值,第一个元素从1开始
+void append(vector<int> &heap,int num){
+	heap.push_back(num);
+	int size=heap.size();
+	int p=parent(size-1),itr=size-1;
+	while(p>0){
+		if(heap[p]<heap[itr]){
+			std::swap(heap[p],heap[itr]);
+			itr=p;
+			p=parent(itr);
+		}else
+			return;
+	}
 }
 //max heap,chose a max num bettween current node and its left, right node 
 void insert(int A[],int size,int pos){
@@ -56,6 +91,10 @@ void print(int A[],int size){
 //注意，这个排序算法认为数组的第一个数的下表为1而不是0！
 int main(){
 	int A[10]={0,2,3,4,6,1,7,5,8,9};
+	vector<int> test={0};
+	for(int i=0;i<10;i++)
+		append(test,A[i]);
+	output(test);
 	bulid(A,9);
 	print(A,9);
 	sort(A,9);

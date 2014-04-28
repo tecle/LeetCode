@@ -1,4 +1,6 @@
-#include"myhead.h"
+#include<iostream>
+#include<ctime>
+using namespace std;
 
 bool isError=false;
 int rightMerge(int *A,int size){
@@ -145,7 +147,12 @@ void fillNumber(int *A){
 		return;
 	
 	int total=ROW*COL;
-	int num=2;//生成的数的大小
+	srand((unsigned)time(0));
+	int num;
+	if(rand()%100 > 11)
+		num=2;//生成的数的大小
+	else
+		num=4;
 	//生成随机的数
 	while(true){
 		srand((unsigned)time(0));
@@ -162,6 +169,24 @@ void fillNumber(int *A){
 				}
 		}
 	}
+}
+bool haveSolution(int *A){
+	int i,total=ROW*COL;
+	for(i=0;i<total;i++){
+		if(A[i]==0)
+			return true;
+	}
+	for( i=0;i<ROW-1;i++){
+		for(int j=0;j<COL-1;j++)
+			if(*(A+i*ROW+j)==*(A+(i+1)*ROW+j) || *(A+i*ROW+j) == *(A+i*ROW+j+1))
+				return true;
+		if(*(A+i*ROW+COL-1) == *(A+(i+1)*ROW+COL-1))
+			return true;
+	}
+	for( i=(ROW-1)*ROW ; i<total-1 ; i++)
+		if( *(A+i) == *(A+i+1) )
+			return true;
+	return false;
 }
 int main(){
 	int row=ROW;
@@ -186,6 +211,10 @@ int main(){
 		fillNumber(&A[0][0]);
 		cout<<endl;	
 		coutArray(&A[0][0]);
+		if(!haveSolution(&A[0][0])){
+			cout<<"游戏结束咯！！！"<<endl;
+			return 1;
+		}
 		//cout<<endl;
 		cout<<endl<<"使用W,A,S,D来选择上,左,下,右:";
 	}
